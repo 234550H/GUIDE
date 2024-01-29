@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+
+{% block title %} Thank You for Your Review {% endblock %}
+
+{% block content %}
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        text-align: center;
+        margin: 50px;
+    }
+
+    h1 {
+        color: #02571C;
+    }
+
+    p {
+        font-size: 18px;
+        margin-bottom: 20px;
+    }
+
+    img {
+        max-width: 100%; /* Adjust the width to fill the container */
+        height: auto;
+        margin-top: 20px;
+        margin-bottom: 20px;
+        display: block; /* Center the image */
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    /* Additional styles to override logo positioning */
+    .your-logo-class {
+        /* Add your specific styling for the logo here, e.g., margin or alignment */
+        margin-top: 0; /* Adjust as needed */
+        margin-bottom: 0; /* Adjust as needed */
+    }
+</style>
+
+<h1>Thank You for Your Review!</h1>
+<p>We appreciate your feedback. Your review has been submitted successfully.</p>
+<a href="/"><img class="your-logo-class" src="/static/images/Logo.png" width="260px" height="200" alt="Your Logo"></a>
+
+{% endblock %}
