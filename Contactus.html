@@ -1,0 +1,145 @@
+{% extends "base.html" %}
+
+{% block title %} Contact Us {% endblock %}
+
+{% block content %}
+<link rel="stylesheet" href="{{ url_for('static', filename='/contactus.css') }}">
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const firstNameInput = document.getElementById('first_name');
+        const lastNameInput = document.getElementById('last_name');
+        const emailInput = document.getElementById('email');
+        const contactInput = document.getElementById('contact');
+        const queryInput = document.getElementById('query');
+        const descriptionInput = document.getElementsByName('description')[0];
+
+        function showValidationError(input, errorId, errorMessage) {
+            const errorSpan = document.getElementById(errorId);
+            errorSpan.textContent = errorMessage;
+            input.classList.add('invalid');
+        }
+
+        function clearValidationError(input, errorId) {
+            const errorSpan = document.getElementById(errorId);
+            errorSpan.textContent = '';
+            input.classList.remove('invalid');
+        }
+
+        function validateFirstName() {
+            const firstName = firstNameInput.value.trim();
+            if (firstName === '') {
+                showValidationError(firstNameInput, 'first-name-error', 'This is a required field*');
+            } else {
+                clearValidationError(firstNameInput, 'first-name-error');
+            }
+        }
+
+        function validateLastName() {
+            const lastName = lastNameInput.value.trim();
+            if (lastName === '') {
+                showValidationError(lastNameInput, 'last-name-error', 'This is a required field*');
+            } else {
+                clearValidationError(lastNameInput, 'last-name-error');
+            }
+        }
+
+        function validateEmail() {
+            const email = emailInput.value.trim();
+            if (email === '' || !isValidEmail(email)) {
+                showValidationError(emailInput, 'email-error', 'Please enter a valid email address*');
+            } else {
+                clearValidationError(emailInput, 'email-error');
+            }
+        }
+
+        function validateContact() {
+            const contact = contactInput.value.trim();
+            if (contact !== '' && !isValidPhoneNumber(contact)) {
+                showValidationError(contactInput, 'contact-error', 'Please enter an 8-digit phone number*');
+            } else {
+                clearValidationError(contactInput, 'contact-error');
+            }
+        }
+
+        function validateQuery() {
+            const query = queryInput.value.trim();
+            if (query === '') {
+                showValidationError(queryInput, 'query-error', 'Please select one option*');
+            } else {
+                clearValidationError(queryInput, 'query-error');
+            }
+        }
+
+        function validateDescription() {
+            const description = descriptionInput.value.trim();
+            if (description === '') {
+                showValidationError(descriptionInput, 'description-error', 'Please enter a description*');
+            } else {
+                clearValidationError(descriptionInput, 'description-error');
+            }
+        }
+
+        function isValidEmail(email) {
+            // Add your email validation logic here
+            // This is a simple example, you might want to use a regular expression or another method
+            return email.includes('@');
+        }
+
+        function isValidPhoneNumber(phoneNumber) {
+            // Add your phone number validation logic here
+            // This is a simple example, you might want to use a regular expression or another method
+            return /^\d{8}$/.test(phoneNumber);
+        }
+
+        // Attach blur event listeners before defining HTML elements
+        firstNameInput.addEventListener('blur', validateFirstName);
+        lastNameInput.addEventListener('blur', validateLastName);
+        emailInput.addEventListener('blur', validateEmail);
+        contactInput.addEventListener('blur', validateContact);
+        queryInput.addEventListener('blur', validateQuery);
+        descriptionInput.addEventListener('blur', validateDescription);
+    });
+</script>
+
+<h2>Contact Us</h2>
+<div id="div1">
+    <form action="{{ url_for('contact_us') }}" method="post">
+        <fieldset id="contacts">
+            <label for="first_name">First Name:</label>
+            <input type="text" name="first_name" id="first_name" required autofocus>
+            <span class="validation-text" id="first-name-error"></span><br>
+
+            <label for="last_name">Last Name:</label>
+            <input type="text" name="last_name" id="last_name" required>
+            <span class="validation-text" id="last-name-error"></span><br>
+
+            Email Address:<input name="email" id="email" type="email" required autofocus>
+            <span class="validation-text" id="email-error"></span><br>
+
+            Mobile Number(Optional):<input type="text" id="contact" name="contact" title="Please enter an 8-digit telephone number" pattern="\d{8}">
+            <span class="validation-text" id="contact-error"></span><br>
+
+            <label for="query">Purpose of Enquiry:</label>
+            <input name="query" id="query" list="queries" required>
+                <datalist id="queries">
+                    <option value="General Inquiry"></option>
+                    <option value="Purchase Inquiry"></option>
+                    <option value="Order Status"></option>
+                    <option value="Technical Issues"></option>
+                    <option value="Suggestion/Feedback"></option>
+                    <option value="Others"></option>
+                </datalist>
+            <span class="validation-text" id="query-error"></span><br>
+
+            Description:<br>
+            <textarea name="description" required></textarea>
+            <span class="validation-text" id="description-error"></span>
+        </fieldset><br>
+
+        <div class="center">
+            <button  class="special" name="submit" type="submit" id="submit">SUBMIT</button>
+        </div>
+    </form>
+</div>
+{% endblock %}
